@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content%}
+</br>
+<div class="container-fluid">
+    <div class="col border border-dark">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Party Funds</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ Total }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </br>
+        <Table>
+            {% for name in party %}
+            <tr>
+               <th scope="row">{{ name }}</th>
+               <td>{{ funds }}</td> 
+            </tr>
+            {% endfor %}
+        </Table>
+    </div>
+    <div class="col border border-dark">
+
+    </div>
+</div>
+{% endblock %}

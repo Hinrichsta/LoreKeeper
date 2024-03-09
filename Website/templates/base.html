@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    </head>
+    <body class="bg-secondary">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand abs" href="/">
+                    <span class="navbar-brand">
+                    </span>
+                </a>
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#Navbar">
+                    <span class="navbar-toggler-icon">
+                        <!--<img src="{{url_for('static', filename='images/Big-Mac.png')}}" alt="Bosselman Enterprises" width="64" height="64">-->
+                    </span>
+                </button>
+                <div class="navbar-collapse collapse" id="Navbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/AP">AP Ledger</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/AR">AR Ledger</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Magic_Items">Magic Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Ships">Ships</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Party">Party Members</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% block content%}
+            {% endblock %}
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content%}
+</br>
+<table class="table table-responsive table-striped table-dark table-bordered">
+    <thead class="thread-dark">
+        <tr>
+            <th scope="col">IRL Date</th>
+            <th scope="col">In-Game Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Platinum</th>
+            <th scope="col">Gold</th>
+            <th scope="col">Silver</th>
+            <th scope="col">Copper</th>
+            <th scope="col">Total</th>
+            <th scope="col">Party</th>
+        </tr>
+    </thead>
+{% for ad in ar_data  %}
+    <tr>
+        <td>{{ ad[1]  }}</td>
+        <td>{{ ad[2]  }}</td>
+        <td>{{ ad[3]  }}</td>
+        <td>{{ ad[4]  }}</td>
+        <td>{{ ad[5]  }}</td>
+        <td>{{ ad[6]  }}</td>
+        <td>{{ ad[7]  }}</td>
+        <td>{{ ad[8]  }}</td>
+        <td>{{ tran_names[loop.index-1] }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
