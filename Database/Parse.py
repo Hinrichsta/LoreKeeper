@@ -1,6 +1,13 @@
+import json
 from sqlalchemy import text
 from Database.Database import Lore_Session
 #from Database import Lore_Session
+
+def get_etharus_date():
+    eth_date = json.load(open('LoreKeeper\etharus_date.json'))
+    date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
+
+    return date_parse
 
 def get_party_funds():
     ap_query_text = text("Select id, CAST((pp*10) + gp + (CAST(sp AS float)/10) + (CAST(cp AS float)/100) AS float) as total, COUNT(AP_Member_Transactions.AP_id) as membercount, STRING_AGG(AP_Member_Transactions.Party_id, ',') as members FROM AP LEFT JOIN AP_Member_Transactions ON AP.id = AP_Member_Transactions.AP_id GROUP BY AP.id, AP.pp, AP.gp, AP.sp, AP.cp;")

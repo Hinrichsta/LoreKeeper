@@ -5,8 +5,8 @@
 </br>
 <div class="container">
     <div class="row">
-            <div class="col">
-            <table class="table table-striped table-dark"> <!--Party Funds Nicely Organized-->
+        <div class="col">
+            <table class="table table-striped table-dark text-center"> <!--Party Funds Nicely Organized-->
                 <thead>
                     <tr>
                         <th scope="col">Party Funds</th>
@@ -23,7 +23,7 @@
                 {% for indiv in indiv_funds %}
                     {% if indiv[2] == 1 %}
                         <tr>
-                           <th scope="row">{{ indiv[0] }}</th>
+                           <th scope="row" class="text-end">{{ indiv[0] }}</th>
                            <td>{{ indiv[1] }}</td> 
                         </tr>
                     {% endif%}
@@ -32,88 +32,107 @@
         </div>
         <div class="col"> <!--Coin Form-->
             <h3 class="text-center text-dark">The Bank</h3>
-            <div class="row">
-                <div class="col"> 
-                    <label for="pp">Platinum</label>
-                    <input type="text" class="form-control" id="pp" name="pp" placeholder="0"> 
+            <form method="post">
+                <div class="row">
+                    <div class="col"> 
+                        <label for="pp">Platinum</label>
+                        <input type="text" class="form-control" id="pp" name="pp" placeholder="0"> 
+                    </div>
+                    <div class="col"> 
+                        <label for="gp">Gold</label>
+                        <input type="text" class="form-control" id="gp" name="gp" placeholder="0"> 
+                    </div>
+                    <div class="col"> 
+                        <label for="sp">Silver</label>
+                        <input type="text" class="form-control" id="sp" name="sp" placeholder="0"> 
+                    </div>
+                    <div class="col"> 
+                        <label for="cp">Copper</label>
+                        <input type="text" class="form-control" id="cp" name="cp" placeholder="0">
+                    </div>
                 </div>
-                <div class="col"> 
-                    <label for="gp">Gold</label>
-                    <input type="text" class="form-control" id="gp" name="gp" placeholder="0"> 
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label for="cmembers">Transaction Owner</label>
+                        <select class="form-select" id="cmembers" name="cmembers">
+                            <option selected>Party</option>
+                            <option>Alex</option>
+                            <option>Krerark</option>
+                            <option>Kriik</option>
+                            <option>Nordis</option>
+                        </select>
+                    </div>
+                    <div class="col"> 
+                        <label for="cpayee">Payee</label>
+                        <input type="text" class="form-control" id="cpayee" name="cpayee" placeholder="Payee"> </div>
                 </div>
-                <div class="col"> 
-                    <label for="sp">Silver</label>
-                    <input type="text" class="form-control" id="sp" name="sp" placeholder="0"> 
+                <br>
+                <div class="row">
+                    <div class="col"> 
+                        <label for="cdesc">Transaction Notes</label>
+                        <input type="text" class="form-control" id="cdesc" name="cdesc" placeholder="Upgrade the Guardian's Gale"> 
+                    </div>
                 </div>
-                <div class="col"> 
-                    <label for="cp">Copper</label>
-                    <input type="text" class="form-control" id="cp" name="cp" placeholder="0">
+                <br>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-success btn-lg" id="coin_deposit" name="coin_deposit">Deposit</button>
+                    </div>
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-danger btn-lg" id="coin_withdraw" name="coin_withdraw">Withdraw</button>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col">
-                    <label for="cmembers">Transaction Owner</label>
-                    <select class="form-select" id="cmembers" name="cmembers">
-                        <option selected>Party</option>
-                        <option>Alex</option>
-                        <option>Krerark</option>
-                        <option>Kriik</option>
-                        <option>Nordis</option>
-                    </select>
-                </div>
-                <div class="col"> 
-                    <label for="cpayee">Payee</label>
-                    <input type="text" class="form-control" id="cpayee" name="cpayee" placeholder="Payee"> </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col"> 
-                    <label for="cdesc">Transaction Notes</label>
-                    <input type="text" class="form-control" id="cdesc" name="cdesc" placeholder="Upgrade the Guardian's Gale"> 
-                </div>
-            </div>
+            </form>
         </div>
         <div class="col"> <!--Magic Item Form-->
             <h3 class="text-center text-dark">Magic Item Storage</h3>
-            <div class="row">
-                <div class="col"> 
-                    <label for="iname">Item Name</label>
-                    <input type="text" class="form-control" id="iname" name="iname" placeholder="Bag of Holding"> 
+            <form method="post">
+                <div class="row">
+                    <div class="col"> 
+                        <label for="iname">Item Name</label>
+                        <input type="text" class="form-control" id="iname" name="iname" placeholder="Bag of Holding"> 
+                    </div>
+                    <div class="col">
+                        <label for="imembers">Owner</label>
+                        <select class="form-select" id="imembers" name="imembers">
+                            <option selected>Party</option>
+                            <option>Alex</option>
+                            <option>Krerark</option>
+                            <option>Kriik</option>
+                            <option>Nordis</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="imembers">Owner</label>
-                    <select class="form-select" id="imembers" name="imembers">
-                        <option selected>Party</option>
-                        <option>Alex</option>
-                        <option>Krerark</option>
-                        <option>Kriik</option>
-                        <option>Nordis</option>
-                    </select>
+                <br>
+                <div class="row">
+                    <div class="col"> 
+                        <label for="irarity">Rarity</label>
+                        <input type="text" class="form-control" id="irarity" name="irarity" placeholder="Very Rare"> 
+                    </div>
+                    <div class="col"> 
+                        <label for="inotes">Item Notes</label>
+                        <input type="text" class="form-control" id="inotes" name="inotes" placeholder="Might eat you"> 
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col"> 
-                    <label for="irarity">Rarity</label>
-                    <input type="text" class="form-control" id="irarity" name="irarity" placeholder="Very Rare"> 
+                <br>
+                <div class="row">
+                    <div class="col"> 
+                        <label for="imaker">SRD/Homebrew</label>
+                        <input type="text" class="form-control" id="imaker" name="imaker" placeholder="SRD or Homebrew"> 
+                    </div>
+                    <div class="col"> 
+                        <label for="ilink">Item URL</label>
+                        <input type="text" class="form-control" id="ilink" name="ilink" placeholder="DNDBeyond or Legendkeeper"> 
+                    </div>
                 </div>
-                <div class="col"> 
-                    <label for="inotes">Item Notes</label>
-                    <input type="text" class="form-control" id="inotes" name="inotes" placeholder="Might eat you"> 
+                <br>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" id="store_item" name="store_item" disabled>Store Item</button>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col"> 
-                    <label for="imaker">SRD/Homebrew</label>
-                    <input type="text" class="form-control" id="imaker" name="imaker" placeholder="SRD or Homebrew"> 
-                </div>
-                <div class="col"> 
-                    <label for="ilink">Item URL</label>
-                    <input type="text" class="form-control" id="ilink" name="ilink" placeholder="DNDBeyond or Legendkeeper"> 
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

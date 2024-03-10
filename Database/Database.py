@@ -1,7 +1,8 @@
 import os
 import datetime
+from datetime import date
 from dotenv import load_dotenv
-from sqlalchemy import URL, create_engine, MetaData, Table, Column, Integer, String, DateTime, ForeignKey, Date, func, Float, Boolean
+from sqlalchemy import URL, create_engine, MetaData, Table, Column, Integer, String, ForeignKey, func, Float, Boolean
 from typing import List, Optional
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
 import pymssql
@@ -45,7 +46,7 @@ class AR_Members(Base):
 class AR(Base):
     __tablename__ = 'AR'
     id: Mapped[int] = mapped_column(primary_key=True)
-    irl_date: Mapped[datetime.datetime] = mapped_column(nullable=False)
+    irl_date: Mapped[date] = mapped_column(nullable=False)
     ig_date: Mapped[str] = mapped_column(String(32))
     description: Mapped[str] = mapped_column(String())
     pp: Mapped[int] = mapped_column(Integer(), nullable=True)
@@ -65,7 +66,7 @@ class AP_Members(Base):
 class AP(Base):
     __tablename__ = 'AP'
     id: Mapped[int] = mapped_column(primary_key=True)
-    irl_date: Mapped[datetime.datetime] = mapped_column(nullable=False)
+    irl_date: Mapped[date] = mapped_column(nullable=False)
     ig_date: Mapped[str] = mapped_column(String(32))
     description: Mapped[str] = mapped_column(String())
     pp: Mapped[int] = mapped_column(Integer(), nullable=True)
@@ -80,7 +81,7 @@ class AP(Base):
 class Magic_Items(Base):
     __tablename__ = 'Magic_Items'
     id: Mapped[int] = mapped_column(primary_key=True)
-    irl_date: Mapped[datetime.datetime] = mapped_column(nullable=False)
+    irl_date: Mapped[date] = mapped_column(nullable=False)
     ig_date: Mapped[str] = mapped_column(String(32))
     name: Mapped[str] = mapped_column(String())
     notes: Mapped[str] = mapped_column(String(), nullable=True)
