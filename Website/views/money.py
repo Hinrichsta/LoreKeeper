@@ -2,52 +2,27 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import text
 import json
 from Database.Database import Lore_Session
+from Database.Parse import *
 
 money = Blueprint('money', __name__)
 
 @money.route('/')
 def home():
-
-    return render_template("home.html")
+    party_funds = get_party_funds()
+    indiv_funds = get_individual_funds()
+    return render_template("home.html", party_funds=party_funds, indiv_funds=indiv_funds)
 
 @money.route('/AP')
 def  ap():
-    ap_query_text = text("Select *, (CAST(total AS float)/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, ((pp*10) + gp + (sp/10) + (cp/100)) as total, payee, COUNT(AP_Member_Transactions.AP_id) as membercount, STRING_AGG(AP_Member_Transactions.Party_id, ',') as members FROM AP LEFT JOIN AP_Member_Transactions ON AP.id = AP_Member_Transactions.AP_id GROUP BY AP.id, AP.irl_date, AP.ig_date, AP.description, AP.pp, AP.gp, AP.sp, AP.cp, AP.payee) tbl;")
-    ap_query = Lore_Session.execute(ap_query_text).all()
-    names = []
-    for aq in ap_query:
-        split = aq[11].split(',')
-        temp = ''
-        i=0
-        while i < len(split):
-            temp += str((Lore_Session.execute(text(f"SELECT name FROM Party WHERE id = {split[i]}")).all())[0][0])
-            if i == (len(split) - 1): 
-                pass
-            else:
-                temp += ', '
-            i += 1
-        names.append(temp)
-    return render_template("ap.html",tran_names=names,ap_data=ap_query)
+    ap_data, names = get_ap_trans()
+
+    return render_template("ap.html",tran_names=names,ap_data=ap_data)
 
 @money.route('/AR')
 def  ar():
-    ar_query_text = text("Select *, (CAST(total AS float)/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, ((pp*10) + gp + (sp/10) + (cp/100)) as total, COUNT(AR_Member_Transactions.AR_id) as membercount, STRING_AGG(AR_Member_Transactions.Party_id, ',') as members FROM AR LEFT JOIN AR_Member_Transactions ON AR.id = AR_Member_Transactions.AR_id GROUP BY AR.id, AR.irl_date, ar.ig_date, ar.description, ar.pp, ar.gp, ar.sp, ar.cp) tbl")
-    ar_query = Lore_Session.execute(ar_query_text).all()
-    names = []
-    for aq in ar_query:
-        split = aq[10].split(',')
-        temp = ''
-        i=0
-        while i < len(split):
-            temp += str((Lore_Session.execute(text(f"SELECT name FROM Party WHERE id = {split[i]}")).all())[0][0])
-            if i == (len(split) - 1): 
-                pass
-            else:
-                temp += ', '
-            i += 1
-        names.append(temp)
+    ar_data, names = get_ar_trans()
 
-    return render_template("ar.html",tran_names=names,ar_data=ar_query)
+    return render_template("ar.html",tran_names=names,ar_data=ar_data)
 
 @money.route('/Crew')
 def  crew():

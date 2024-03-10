@@ -1,12 +1,12 @@
 import os
 import datetime
 from dotenv import load_dotenv
-from sqlalchemy import URL, create_engine, MetaData, Table, Column, Integer, String, DateTime, ForeignKey, Date, func, Float, text
+from sqlalchemy import URL, create_engine, MetaData, Table, Column, Integer, String, DateTime, ForeignKey, Date, func, Float, Boolean
 from typing import List, Optional
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
 import pymssql
 
-load_dotenv('.env')
+load_dotenv('LoreKeeper/.env')
 
 LoreData = URL.create(
     "mssql+pymssql",
@@ -27,11 +27,20 @@ class Party(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(), nullable=True)
     player: Mapped[str] = mapped_column(String(), nullable=True)
-    role: Mapped[str] = mapped_column(String(), nullable=True)
+    party_role: Mapped[str] = mapped_column(String(), nullable=True)
+    ship_role: Mapped[str] = mapped_column(String(), nullable=True)
     race: Mapped[str] = mapped_column(String(), nullable=True)
-    joinDate: Mapped[datetime.datetime] = mapped_column(nullable=False)
-    leaveDate: Mapped[datetime.datetime] = mapped_column(nullable=True)
+    active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    #joinDate: Mapped[datetime.datetime] = mapped_column(nullable=False)
+    #leaveDate: Mapped[datetime.datetime] = mapped_column(nullable=True)
     items: Mapped[list["Magic_Items"]] = relationship()
+
+class AR_Members(Base):
+    __tablename__ = 'AR_Member_Transactions'
+    AR_id: Mapped[int] = mapped_column(ForeignKey("AR.id"), primary_key=True)
+    Party_id: Mapped[int] = mapped_column(ForeignKey("Party.id"), primary_key=True)
+    notes: Mapped[Optional[str]]
+    trans: Mapped["AR"] = relationship()
 
 class AR(Base):
     __tablename__ = 'AR'
@@ -43,14 +52,15 @@ class AR(Base):
     gp: Mapped[int] = mapped_column(Integer(), nullable=True)
     sp: Mapped[int] = mapped_column(Integer(), nullable=True)
     cp: Mapped[int] = mapped_column(Integer(), nullable=True)
-    members: Mapped[List["AR_Members"]] = relationship()
+    members: Mapped[List["AR_Members"]] = relationship(secondary=AR_Members)
 
-class AR_Members(Base):
-    __tablename__ = 'AR_Member_Transactions'
-    AR_id: Mapped[int] = mapped_column(ForeignKey("AR.id"), primary_key=True)
+    
+class AP_Members(Base):
+    __tablename__ = 'AP_Member_Transactions'
+    AP_id: Mapped[int] = mapped_column(ForeignKey("AP.id"), primary_key=True)
     Party_id: Mapped[int] = mapped_column(ForeignKey("Party.id"), primary_key=True)
     notes: Mapped[Optional[str]]
-    trans: Mapped["AR"] = relationship()
+    trans: Mapped["AP"] = relationship()
 
 class AP(Base):
     __tablename__ = 'AP'
@@ -62,14 +72,10 @@ class AP(Base):
     gp: Mapped[int] = mapped_column(Integer(), nullable=True)
     sp: Mapped[int] = mapped_column(Integer(), nullable=True)
     cp: Mapped[int] = mapped_column(Integer(), nullable=True)
-    members: Mapped[List["AP_Members"]] = relationship()
+    payee: Mapped[str] = mapped_column(String())
+    members: Mapped[List["AP_Members"]] = relationship(secondary=AP_Members)
 
-class AP_Members(Base):
-    __tablename__ = 'AP_Member_Transactions'
-    AP_id: Mapped[int] = mapped_column(ForeignKey("AP.id"), primary_key=True)
-    Party_id: Mapped[int] = mapped_column(ForeignKey("Party.id"), primary_key=True)
-    notes: Mapped[Optional[str]]
-    trans: Mapped["AP"] = relationship()
+
 
 class Magic_Items(Base):
     __tablename__ = 'Magic_Items'
@@ -104,7 +110,7 @@ Base.metadata.create_all(dbEngine)
 
 Lore_Session = Session(dbEngine)
 
-Test = Lore_Session.execute(text("Select *, (CAST(total AS float)/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, ((pp*10) + gp + (sp/10) + (cp/100)) as total, COUNT(AR_Member_Transactions.AR_id) as membercount, STRING_AGG(AR_Member_Transactions.Party_id, ',') as members FROM AR LEFT JOIN AR_Member_Transactions ON AR.id = AR_Member_Transactions.AR_id GROUP BY AR.id, AR.irl_date, ar.ig_date, ar.description, ar.pp, ar.gp, ar.sp, ar.cp) tbl")).all()
+#Test = Lore_Session.execute(text("Select *, (CAST(total AS float)/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, ((pp*10) + gp + (sp/10) + (cp/100)) as total, COUNT(AR_Member_Transactions.AR_id) as membercount, STRING_AGG(AR_Member_Transactions.Party_id, ',') as members FROM AR LEFT JOIN AR_Member_Transactions ON AR.id = AR_Member_Transactions.AR_id GROUP BY AR.id, AR.irl_date, ar.ig_date, ar.description, ar.pp, ar.gp, ar.sp, ar.cp) tbl")).all()
 
 #for t in Test:
 #    print(t)
