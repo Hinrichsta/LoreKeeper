@@ -1,7 +1,7 @@
 from flask import Flask
 from Database.Database import Lore_Session
 
-def create_app():
+def create_site():
     app = Flask(__name__)
 
     from .views import money

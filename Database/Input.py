@@ -7,15 +7,22 @@ from Database.Parse import get_etharus_date
 from datetime import date
 
 def set_etharus_date(season,date,year):
-    eth_date = {
-        "season": season,
-        "date": date,
-        "year": year,
-        "era": "AG"
-    }
+    seasons = ('Spring', 'Summer', 'Fall', 'Autumn', 'Winter')
+    if season.casefold() not in (s.casefold() for s in seasons):
+        return "Error: Season"
+    elif int(date) > 92:
+        return "Error: Date"
+    else:
+        eth_date = {
+            "season": season,
+            "date": date,
+            "year": year,
+            "era": "AG"
+        }
 
-    with open(open('LoreKeeper\etharus_date.json')) as outfile:
-        json.dump(eth_date, outfile)
+        with open('LoreKeeper\etharus_date.json', 'w') as outfile:
+            json.dump(eth_date, outfile)
+        return "Success"
 
 def set_ap_transaction(trans):
     if trans[6] == 'Party':

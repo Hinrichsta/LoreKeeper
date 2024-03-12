@@ -3,7 +3,14 @@ Website/Discord bot for D&amp;D Campaign.  Practice for Python, Python Flask, an
 
 # ToDo
 - Discord Bot
-- Magic item handling
-- ships
-- crew members
-- home page notes
+    - Finish Deposit
+    - Start Withdraw
+    - /partyfund
+    - /myfunds
+    - /allfunds
+- Website
+  - Etharus Date Management
+  - Magic item handling
+  - ships
+  - crew members
+  - home page notes
