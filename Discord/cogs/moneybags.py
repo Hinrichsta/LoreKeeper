@@ -289,8 +289,8 @@ class MoneyBags(commands.Cog):
     @commands.command()
     async def help(self, ctx):
         response = "``` LoreKeeper and Money Laundering Bot\n\nCommands: "
-        response +="\n/deposit:    Deposit money into party or individual fund | Format: Owner, pp, gp, sp, cp, notes (Order does not matter. Owner may be ommited if withdrawing from individual fund)"
-        response +="\n/withdraw:    Withdraw money from party or individual fund | Format: Owner, pp, gp, sp, cp, notes, payee (Structure at will but leave notes, and payee at the end.  Owner may be ommited if withdrawing from individual fund)"
+        response +="\n/deposit:    Deposit money into party or individual fund | Format: Owner, 0pp, 0gp, 0sp, 0cp, notes (Order does not matter. Owner may be ommited if withdrawing from individual fund.  You do not need to put all denominations but they need to have the denomination after the number)"
+        response +="\n/withdraw:    Withdraw money from party or individual fund | Format: Owner, 0pp, 0gp, 0sp, 0cp, notes, payee (Structure at will but leave notes, and payee at the end.  Owner may be ommited if withdrawing from individual fund. You do not need to put all denominations but they need to have the denomination after the number)"
         response +="\n/date:    Shows the current date in Etharus"
         response +="\n/setdate:    Allows you to set the date in Etharus | Format: Season day,year (example Spring, 21, 1805AG Era may be omitted)"
         response +="\n/allfunds:    Shows the party fund and all the individual funds"

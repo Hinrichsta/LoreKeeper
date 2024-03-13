@@ -8,3 +8,5 @@ site = create_site()
 
 if __name__ == '__main__':
     site.run(debug=True,ssl_context='adhoc')
+    #site.run('0.0.0.0', '443', ssl_context='adhoc')
+    #site.run('0.0.0.0', '443', ssl_context=('cert.pem', 'key.pem'))
