@@ -10,7 +10,7 @@ money = Blueprint('money', __name__)
 @money.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        trans = [request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cpayee'),request.form.get('cmembers')]
+        #trans = [request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cpayee'),request.form.get('cmembers')]
 
         #i = 0
         #while i < len(trans):
@@ -23,14 +23,14 @@ def home():
         #    i += 1
 
         if "coin_deposit" in request.form:
-            set_ar_transaction(trans)
+            set_ar_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'))
         elif "coin_withdraw" in request.form:
-            set_ap_transaction(trans)
+            set_ap_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'),request.form.get('cpayee'))
         elif "store_item" in request.form:
             pass
 
     party_funds = get_party_funds()
-    indiv_funds = get_individual_funds()
+    indiv_funds = get_all_individual_funds()
     return render_template("home.html", party_funds=party_funds, indiv_funds=indiv_funds)
 
 @money.route('/AP')

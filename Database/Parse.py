@@ -132,32 +132,54 @@ def get_specific_ar_trans_simple(requested_id):
     
     return ar_query
 
-def get_individual_funds():
+def get_all_individual_funds():
     ap_trans = get_ap_trans_simple()
     ar_trans = get_ar_trans_simple()
     indiv_totals = []
     party_mems = get_active_party()
 
     for pm in party_mems:
-        #print(pm[1])
         ap_indiv = 0
         ar_indiv = 0
 
-        #print("AP")
-        mem_trans = Lore_Session.execute(text(f"SELECT AP_id, Party_id FROM AP_Member_Transactions WHERE Party_id = {pm[0]};")).all()
-        i = 0
-        for mt in mem_trans:
-            i=mt[0]-1
-            #print(f"{mt[0]} : {ap_trans[i]}")
-            ap_indiv += ap_trans[i][2]
+        for apt in ap_trans:
+            mem_trans = Lore_Session.execute(text(f"SELECT AP_id, Party_id FROM AP_Member_Transactions WHERE AP_id = {apt[0]} and Party_id = {pm[0]};")).all()
+            if len(mem_trans) != 0:
+                if pm[0] == mem_trans[0][1]:
+                    ap_indiv += apt[2]
 
-        #print("AR")
-        mem_trans = Lore_Session.execute(text(f"SELECT AR_id, Party_id FROM AR_Member_Transactions WHERE Party_id = {pm[0]};")).all()
-        i = 0
-        for mt in mem_trans:
-            i=mt[0]-1
-            #print(f"{mt[0]} : {ar_trans[i]}")
-            ar_indiv += ar_trans[i][2]
-        indiv_totals += [[pm[1],round(ar_indiv-ap_indiv,2)]]
+        for art in ar_trans:
+            mem_trans = Lore_Session.execute(text(f"SELECT AR_id, Party_id FROM AR_Member_Transactions WHERE AR_id = {art[0]} and Party_id = {pm[0]};")).all()
+            if len(mem_trans) != 0:
+                if pm[0] == mem_trans[0][1]:
+                    ar_indiv += art[2]
+
+
+        indiv_totals += [[pm[1],round(ar_indiv-ap_indiv,2), pm[2]]]
+    
     return indiv_totals
+
+def get_individual_fund(member):
+    ap_trans = get_ap_trans_simple()
+    ar_trans = get_ar_trans_simple()
+    indiv_total = []
+    party_mem = Lore_Session.execute(text(f"SELECT id, name FROM Party WHERE name = '{member}';")).all()[0]
+    ap_indiv = 0
+    ar_indiv = 0
+
+    for apt in ap_trans:
+        mem_trans = Lore_Session.execute(text(f"SELECT AP_id, Party_id FROM AP_Member_Transactions WHERE AP_id = {apt[0]} and Party_id = {party_mem[0]};")).all()
+        if len(mem_trans) != 0:
+            if party_mem[0] == mem_trans[0][1]:
+                ap_indiv += apt[2]
+
+    for art in ar_trans:
+        mem_trans = Lore_Session.execute(text(f"SELECT AR_id, Party_id FROM AR_Member_Transactions WHERE AR_id = {art[0]} and Party_id = {party_mem[0]};")).all()
+        if len(mem_trans) != 0:
+            if party_mem[0] == mem_trans[0][1]:
+                ar_indiv += art[2]
+
+    indiv_total += [party_mem[1],round(ar_indiv-ap_indiv,2)]
+    
+    return indiv_total
 
