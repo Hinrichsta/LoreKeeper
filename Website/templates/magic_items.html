@@ -2,5 +2,47 @@
 {% block title %}Home{% endblock %}
 
 {% block content%}
-{{ url_for(request.endpoint) }}
+<div class="container-fluid">
+    <br>
+    <h2 class="text-center text-dark">Accounts Payable</h2>
+        <table class="table table-striped table-dark table-bordered">
+            <thead class="thread-dark">
+                <tr>
+                    <th scope="col">IRL Date</th>
+                    <th scope="col">In-Game Date</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Notes</th>
+                    <th scope="col">Rarity</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Link</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            {% for mi in mi_data  %}
+            <tr>
+                <td>{{ mi[1]  }}</td>
+                <td>{{ mi[2]  }}</td>
+                <td>{{ mi[3]  }}</td>
+                <td>{{ mi[4]  }}</td>
+                <td>{{ mi[5]  }}</td>
+                <td>{{ mi[6]  }}</td>
+                <td><a href="{{ mi[7] }}" target="_blank">{{ mi[7]  }}</a></td>
+                {% if owner[loop.index-1] == 'Party' %}
+                    <td>Party:{{ owner[loop.index-1][1] }}</td>
+                {% elif owner[loop.index-1] == 'Ship' %}
+                    <td>Ship:{{ owner[loop.index-1][1] }}</td>
+                {% elif owner[loop.index-1] == 'Ship' %}
+                    <td>Crew:{{ owner[loop.index-1][1] }}</td>
+                {% else %}
+                    <td>Storage</td>
+                {% endif %}
+                {% if mi[8] != 'Active' %}
+                    <td class="table-danger">{{ mi[8]  }}</td>
+                {% else %}
+                    <td>{{ mi[8]  }}</td>
+                {% endif %}    
+            </tr>
+        {% endfor %}
+        </table>
 {% endblock %}

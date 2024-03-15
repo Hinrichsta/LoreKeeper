@@ -19,8 +19,9 @@ def set_etharus_date(season,date,year):
             "year": year,
             "era": "AG"
         }
-
+        
         with open('LoreKeeper\etharus_date.json', 'w') as outfile:
+        #with open('/etc/LoreKeeper/etharus_date.json', 'w') as outfile: -> Use on Server
             json.dump(eth_date, outfile)
         return "Success"
 
@@ -68,3 +69,25 @@ def set_ar_transaction(description, platinum, gold, silver, copper, member):
 
     return result
 
+def deposit_magic_item(name, notes, status, rarity=None, maker=None, link=None, party_owner=None, ship_owner=None, crew_owner=None):
+    column = ''
+    owner = ''
+    if party_owner != None:
+        column = 'powner'
+        owner = party_owner
+    elif ship_owner != None:
+        column = 'showner'
+        owner = ship_owner
+    elif crew_owner != None:
+        column = 'cowner'
+        owner = crew_owner
+    else:
+        pass
+
+    mi_insert = text(f"INSERT INTO Magic_Items (irl_date, ig_date, name, notes, rarity, maker, link, status, {{column}}) OUTPUT INSERTED.id, INSERTED.name VALUES('{date.today()}', '{eth_date}', '{name}', '{notes}', '{rarity}', '{maker}', '{link}', '{status}')")
+    eth_date = get_etharus_date()
+
+    results = Lore_Session.execute(mi_insert).all()[0]
+    Lore_Session.commit()
+
+    return results

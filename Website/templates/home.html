@@ -27,10 +27,22 @@
                     </tr>
                 {% endfor %}
             </table>
+            </br>
+            <div class="row card bg-info">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#etharusDateModal"><h3 class="text-center">{{ eth_date[0] }} {{ eth_date[1] }}, {{ eth_date[2] }}{{ eth_date[3] }}</h3></button>
+            </div>
+            <!--<div class="row">
+                <div class="col card bg-danger">
+                    <button type="button" class="btn btn-danger" id="decrement-date" name="decrement-date"><h4 class="text-center"> - </h4></button>
+                </div>
+                <div class="col card bg-success">
+                    <button type="button" class="btn btn-success" id="increment-date" name="increment-date"><h4 class="text-center"> + </h4></button>
+                </div>
+            </div>-->
         </div>
         <div class="col"> <!--Coin Form-->
             <h3 class="text-center text-dark">The Bank</h3>
-            <form method="post">
+            <form method="post" id="coins-form">
                 <div class="row">
                     <div class="col"> 
                         <label for="pp">Platinum</label>
@@ -85,7 +97,7 @@
         </div>
         <div class="col"> <!--Magic Item Form-->
             <h3 class="text-center text-dark">Magic Item Storage</h3>
-            <form method="post">
+            <form method="post" id="magic-items-form">
                 <div class="row">
                     <div class="col"> 
                         <label for="iname">Item Name</label>
@@ -136,7 +148,46 @@
 </div>
 <div class="row">
     <div class="col">
-
     </div>
 </div>
+
+<!-- Date Modal -->
+<div class="modal fade" id="etharusDateModal" tabindex="-1" aria-labelledby="etharusDateModallabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="etharusDateModallabel">Etharus Date</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h3 class="col text-center">{{ eth_date[0] }}</h3>
+                    <h3 class="col text-center">{{ eth_date[1] }}</h3>
+                    <h3 class="col text-center">{{ eth_date[2] }}</h3>
+                </div>
+                <br>
+                <form method="post" id="date-update-form">
+                    <div class="row">
+                        <div class="col text-center"> 
+                            <label for="mseason">Season</label>
+                            <input type="text" class="form-control" id="mseason" name="mseason"> 
+                        </div>
+                        <div class="col text-center"> 
+                            <label for="mday">Day</label>
+                            <input type="text" class="form-control" id="mday" name="mday"> 
+                        </div>
+                        <div class="col text-center"> 
+                            <label for="myear">Year</label>
+                            <input type="text" class="form-control" id="myear" name="myear"> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="date-update-form" id="date-update" name="date-update">Update Date</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

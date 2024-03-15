@@ -5,7 +5,9 @@ from Database.Database import Lore_Session
 
 def get_etharus_date():
     eth_date = json.load(open('LoreKeeper\etharus_date.json'))
-    date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
+    #eth_date = json.load(open('/etc/LoreKeeper/etharus_date.json')) -> Use on Server
+    #date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
+    date_parse = [eth_date['season'],eth_date['date'],eth_date['year'],eth_date['era']]
 
     return date_parse
 
@@ -183,3 +185,18 @@ def get_individual_fund(member):
     
     return indiv_total
 
+def get_magic_items():
+    mi_query_text = text("SELECT * FROM Magic_Items")
+    mi_query = Lore_Session.execute(mi_query_text).all()
+    owner = []
+    for mq in mi_query:
+        if mq[9] != None:
+            owner.append(['Party', Lore_Session.execute(text(f"SELECT name FROM Party WHERE id = {mq[9]}")).all()[0]])
+        elif mq[10] != None:
+            owner.append(['Ship', Lore_Session.execute(text(f"SELECT name FROM Ships WHERE id = {mq[9]}")).all()[0]])
+        elif mq[11] != None:
+            owner.append(['Crew', Lore_Session.execute(text(f"SELECT name FROM Crew WHERE id = {mq[9]}")).all()[0]])
+        else:
+            owner.append(['Party Stash'])
+
+    return mi_query, owner

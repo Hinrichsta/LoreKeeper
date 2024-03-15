@@ -3,11 +3,10 @@ Website/Discord bot for D&amp;D Campaign.  Practice for Python, Python Flask, an
 
 # ToDo
 - Discord Bot
-    - **Currently Complete!**
     - Logging...
 - Website
-  - Etharus Date Management
   - Magic item handling
+    - Parsing Complete, need to complete form adds
   - ships
   - crew members
   - home page notes
@@ -18,3 +17,8 @@ Website/Discord bot for D&amp;D Campaign.  Practice for Python, Python Flask, an
   - pymssql
   - python-dotenv
   - discord.py
+
+
+
+- Notes to Future Me
+  - https://ask.replit.com/t/html-button-that-updates-a-python-variable-with-flask/34562/4

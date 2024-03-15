@@ -34,7 +34,7 @@ class Party(Base):
     active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     #joinDate: Mapped[datetime.datetime] = mapped_column(nullable=False)
     #leaveDate: Mapped[datetime.datetime] = mapped_column(nullable=True)
-    items: Mapped[list["Magic_Items"]] = relationship()
+    items: Mapped[List["Magic_Items"]] = relationship()
 
 class AR_Members(Base):
     __tablename__ = 'AR_Member_Transactions'
@@ -76,7 +76,23 @@ class AP(Base):
     payee: Mapped[str] = mapped_column(String())
     members: Mapped[List["AP_Members"]] = relationship(secondary=AP_Members)
 
+class Ships(Base):
+    __tablename__ = 'Ships'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String())
+    type: Mapped[str] = mapped_column(String())
+    size: Mapped[str] = mapped_column(String())
+    crew: Mapped[list["Crew"]] = relationship()
+    items: Mapped[List["Magic_Items"]] = relationship()
 
+class Crew(Base):
+    __tablename__ = 'Crew'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String())
+    race: Mapped[str] = mapped_column(String())
+    stat_block: Mapped[str] = mapped_column(String())
+    ship_id: Mapped[int] = mapped_column(ForeignKey(Ships.id))
+    items: Mapped[List["Magic_Items"]] = relationship()
 
 class Magic_Items(Base):
     __tablename__ = 'Magic_Items'
@@ -86,26 +102,12 @@ class Magic_Items(Base):
     name: Mapped[str] = mapped_column(String())
     notes: Mapped[str] = mapped_column(String(), nullable=True)
     rarity: Mapped[str] = mapped_column(String(), nullable=True)
-    make: Mapped[str] = mapped_column(String(), nullable=True)
+    maker: Mapped[str] = mapped_column(String(), nullable=True)
     link: Mapped[str] = mapped_column(String(), nullable=True)
-    Status: Mapped[str] = mapped_column(String())
-    owner: Mapped[int] = mapped_column(ForeignKey(Party.id))
-
-class Ships(Base):
-    __tablename__ = 'Ships'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String())
-    type: Mapped[str] = mapped_column(String())
-    size: Mapped[str] = mapped_column(String())
-    crew: Mapped[list["Crew"]] = relationship()
-
-class Crew(Base):
-    __tablename__ = 'Crew'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String())
-    race: Mapped[str] = mapped_column(String())
-    stat_block: Mapped[str] = mapped_column(String())
-    ship_id: Mapped[int] = mapped_column(ForeignKey(Ships.id))
+    status: Mapped[str] = mapped_column(String())
+    powner: Mapped[int] = mapped_column(ForeignKey(Party.id), nullable=True)
+    sowner: Mapped[int] = mapped_column(ForeignKey(Ships.id), nullable=True)
+    cowner: Mapped[int] = mapped_column(ForeignKey(Crew.id), nullable=True)
 
 Base.metadata.create_all(dbEngine)
 
