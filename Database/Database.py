@@ -8,6 +8,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship,
 import pymssql
 
 load_dotenv('LoreKeeper/.env')
+#load_dotenv('/etc/LoreKeeper/.env')
 
 LoreData = URL.create(
     "mssql+pymssql",

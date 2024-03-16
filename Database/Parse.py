@@ -37,7 +37,7 @@ def get_active_party():
     return results
 
 def get_ap_trans():
-    ap_query_text = text("Select *, (total/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, CAST(((pp*10) + gp + (CAST(sp AS float)/10) + (CAST(cp AS float)/100)) AS float) as total, payee, COUNT(AP_Member_Transactions.AP_id) as membercount, STRING_AGG(AP_Member_Transactions.Party_id, ',') as members FROM AP LEFT JOIN AP_Member_Transactions ON AP.id = AP_Member_Transactions.AP_id GROUP BY AP.id, AP.irl_date, AP.ig_date, AP.description, AP.pp, AP.gp, AP.sp, AP.cp, AP.payee) tbl;")
+    ap_query_text = text("Select *, (total/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, CAST(((pp*10) + gp + (CAST(sp AS float)/10) + (CAST(cp AS float)/100)) AS float) as total, payee, COUNT(AP_Member_Transactions.AP_id) as membercount, STRING_AGG(AP_Member_Transactions.Party_id, ',') as members FROM AP LEFT JOIN AP_Member_Transactions ON AP.id = AP_Member_Transactions.AP_id GROUP BY AP.id, AP.irl_date, AP.ig_date, AP.description, AP.pp, AP.gp, AP.sp, AP.cp, AP.payee) tbl ORDER BY id DESC;")
     ap_query = Lore_Session.execute(ap_query_text).all()
     names = []
     for apq in ap_query:
@@ -85,7 +85,7 @@ def get_specific_ap_trans_simple(requested_id):
     return ap_query
 
 def get_ar_trans():
-    ar_query_text = text("Select *, (total/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, CAST(((pp*10) + gp + (CAST(sp AS float)/10) + (CAST(cp AS float)/100)) AS float) as total, COUNT(AR_Member_Transactions.AR_id) as membercount, STRING_AGG(AR_Member_Transactions.Party_id, ',') as members FROM AR LEFT JOIN AR_Member_Transactions ON AR.id = AR_Member_Transactions.AR_id GROUP BY AR.id, AR.irl_date, ar.ig_date, ar.description, ar.pp, ar.gp, ar.sp, ar.cp) tbl;")
+    ar_query_text = text("Select *, (total/CAST(membercount AS float)) as Split FROM (Select id, CAST(irl_date as DATE) as irl_date, ig_date, description, pp, gp, sp, cp, CAST(((pp*10) + gp + (CAST(sp AS float)/10) + (CAST(cp AS float)/100)) AS float) as total, COUNT(AR_Member_Transactions.AR_id) as membercount, STRING_AGG(AR_Member_Transactions.Party_id, ',') as members FROM AR LEFT JOIN AR_Member_Transactions ON AR.id = AR_Member_Transactions.AR_id GROUP BY AR.id, AR.irl_date, ar.ig_date, ar.description, ar.pp, ar.gp, ar.sp, ar.cp) tbl ORDER BY id DESC;")
     ar_query = Lore_Session.execute(ar_query_text).all()
     names = []
     for arq in ar_query:
@@ -186,16 +186,16 @@ def get_individual_fund(member):
     return indiv_total
 
 def get_magic_items():
-    mi_query_text = text("SELECT * FROM Magic_Items")
+    mi_query_text = text("SELECT * FROM Magic_Items ORDER BY id DESC")
     mi_query = Lore_Session.execute(mi_query_text).all()
     owner = []
     for mq in mi_query:
         if mq[9] != None:
-            owner.append(['Party', Lore_Session.execute(text(f"SELECT name FROM Party WHERE id = {mq[9]}")).all()[0]])
+            owner.append(['Party', Lore_Session.execute(text(f"SELECT name FROM Party WHERE id = {mq[9]}")).all()[0][0]])
         elif mq[10] != None:
-            owner.append(['Ship', Lore_Session.execute(text(f"SELECT name FROM Ships WHERE id = {mq[9]}")).all()[0]])
+            owner.append(['Ship', Lore_Session.execute(text(f"SELECT name FROM Ships WHERE id = {mq[9]}")).all()[0][0]])
         elif mq[11] != None:
-            owner.append(['Crew', Lore_Session.execute(text(f"SELECT name FROM Crew WHERE id = {mq[9]}")).all()[0]])
+            owner.append(['Crew', Lore_Session.execute(text(f"SELECT name FROM Crew WHERE id = {mq[9]}")).all()[0][0]])
         else:
             owner.append(['Party Stash'])
 

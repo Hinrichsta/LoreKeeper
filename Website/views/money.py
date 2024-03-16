@@ -15,11 +15,20 @@ def home():
     if request.method == 'POST':
         seasons = ['Spring', 'Summer', 'Fall', 'Autumn']
         if "coin_deposit" in request.form:
-            set_ar_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'))
+            if request.form.get('cdesc') == None:
+                pass
+            else:
+                set_ar_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'))
         elif "coin_withdraw" in request.form:
-            set_ap_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'),request.form.get('cpayee'))
+            if request.form.get('cdesc') == None:
+                pass
+            else:
+                set_ap_transaction(request.form.get('cdesc'),request.form.get('pp') or 0,request.form.get('gp') or 0,request.form.get('sp') or 0,request.form.get('cp') or 0,request.form.get('cmembers'),request.form.get('cpayee'))
         elif "store_item" in request.form:
-            pass
+            if request.form.get('iname') == None:
+                pass
+            else:
+                deposit_magic_item(request.form.get('iname'),request.form.get('inotes'),'Active', request.form.get('irarity') or None,request.form.get('imaker') or None,request.form.get('ilink') or None,request.form.get('imembers') or None, None,None)
         elif "date-update" in request.form:
             set_etharus_date(request.form.get('mseason') or eth_date[0],request.form.get('mday') or eth_date[1],request.form.get('myear') or eth_date[2])
             return redirect(url_for('money.home'))

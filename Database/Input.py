@@ -59,6 +59,7 @@ def set_ar_transaction(description, platinum, gold, silver, copper, member):
         party_ids.append(ap[0])
     
     eth_date = get_etharus_date()
+    eth_date = f"{eth_date[0]} {eth_date[1]}, {eth_date[2]}{eth_date[3]}"
     ar_insert = text(f"INSERT INTO AR (irl_date, ig_date, description, pp, gp, sp, cp) OUTPUT INSERTED.id, INSERTED.description VALUES ('{date.today()}', '{eth_date}', '{description}', {platinum}, {gold}, {silver}, {copper})")
 
     result = Lore_Session.execute(ar_insert).all()[0]
@@ -72,21 +73,24 @@ def set_ar_transaction(description, platinum, gold, silver, copper, member):
 def deposit_magic_item(name, notes, status, rarity=None, maker=None, link=None, party_owner=None, ship_owner=None, crew_owner=None):
     column = ''
     owner = ''
-    if party_owner != None:
-        column = 'powner'
-        owner = party_owner
+    if party_owner == 'Party':
+        pass
+    elif party_owner != None:
+        column = ', powner'
+        owner = f", '{party_owner}'"
     elif ship_owner != None:
-        column = 'showner'
-        owner = ship_owner
+        column = ', showner'
+        owner = f", '{ship_owner}'"
     elif crew_owner != None:
-        column = 'cowner'
-        owner = crew_owner
+        column = ', cowner'
+        owner = f", '{crew_owner}'"
     else:
         pass
 
-    mi_insert = text(f"INSERT INTO Magic_Items (irl_date, ig_date, name, notes, rarity, maker, link, status, {{column}}) OUTPUT INSERTED.id, INSERTED.name VALUES('{date.today()}', '{eth_date}', '{name}', '{notes}', '{rarity}', '{maker}', '{link}', '{status}')")
     eth_date = get_etharus_date()
-
+    eth_date = f"{eth_date[0]} {eth_date[1]}, {eth_date[2]}{eth_date[3]}"
+    mi_insert = text(f"INSERT INTO Magic_Items (irl_date, ig_date, name, notes, rarity, maker, link, status{column}) OUTPUT INSERTED.id, INSERTED.name VALUES('{date.today()}', '{eth_date}', '{name}', '{notes}', '{rarity}', '{maker}', '{link}', '{status}'{owner})")
+    
     results = Lore_Session.execute(mi_insert).all()[0]
     Lore_Session.commit()
 
