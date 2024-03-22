@@ -279,6 +279,35 @@ class MoneyBags(commands.Cog):
         await ctx.send(response)
 
     @commands.command()
+    async def myitems(self, ctx):
+        member = ctx.author.display_name.split(' ')[1].strip('()')
+        if(member == 'DM'):
+            response = "You already have all the items, give us more"
+        else:
+            mem_items = get_individual_magic_items(member)
+        response = f"Items {member} currently has:\n"
+        for mi in mem_items:
+            response += f"* [{mi[3]}]({mi[7]})\n"
+
+        await ctx.send(response)
+
+    @commands.command()
+    async def storeditems(self, ctx):
+        magic_items,item_owner = get_magic_items()
+        response = "Magic Items currently in the Party Storage:\n"
+
+        i = 0
+        for mi in magic_items:
+            if item_owner[i][0] == 'Party Stash' and (mi[8] == 'Active' or mi[8] == 'Storage'):
+                response += f"* [{mi[3]}]({mi[7]})\n"
+            i += 1
+            if len(response) >= 1900:
+                await ctx.send(response)
+                response = ''
+        
+        await ctx.send(response)
+
+    @commands.command()
     async def ping(self, ctx):
         await ctx.send("Pong")
 
@@ -299,6 +328,8 @@ class MoneyBags(commands.Cog):
         response +="\n/partyfund:    Shows the current party fund amount"
         response +="\n/allindividual:    Shows all of the current individual funds"
         response +="\n/myfunds:    Shows the requestor's current individual funds"
+        response +="\n/myitems:    Shows the requestor's currently held items"
+        response +="\n/storeditems:    Shows the items currently in the party storage"
         response +="```"
 
         await ctx.send(response)

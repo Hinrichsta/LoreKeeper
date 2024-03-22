@@ -4,9 +4,9 @@ Website/Discord bot for D&amp;D Campaign.  Practice for Python, Python Flask, an
 # ToDo
 - Discord Bot
     - Logging...
+    - Magic Item Handling
+      - Trading, Storing, Selling
 - Website
-  - Magic item handling
-    - Parsing Complete, need to complete form adds
   - ships
   - crew members
   - home page notes

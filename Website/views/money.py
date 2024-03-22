@@ -63,8 +63,34 @@ def home():
         #        if eth_date[0] == 'Winter':
         #            eth_year = int(eth_date[2]) + 1
         #    set_etharus_date(eth_season,eth_day,eth_year)
+    magic_items,magic_owner = get_magic_items()
+    active_party = get_active_party()
+    party_items = []
+    stored_items = []
+    sorted_items = []
+    
+    i = 0
+    for mi in magic_items:
+        if mi[8] == 'Active' and magic_owner[i][0] == 'Party Stash':
+            party_items.append(('Party',mi[3],mi[4],mi[5],mi[7]))
+        elif mi[8] == 'Storage':
+            stored_items.append(('Stored',mi[3],mi[4],mi[5],mi[7]))
+        i += 1
 
-    return render_template("home.html", party_funds=party_funds, indiv_funds=indiv_funds, eth_date=eth_date)
+    for act in active_party:
+        temp_items = []
+        i = 0
+        print(act[1])
+        for mi in magic_items:
+            print(f"{mi[3]}:{magic_owner[i][1]}")
+            if act[1] == magic_owner[i][1]:
+                sorted_items.append((act[1],mi[3],mi[4],mi[5],mi[7]))
+            i += 1
+    for si in sorted_items:
+        print(si)
+
+            
+    return render_template("home.html", party_funds=party_funds, indiv_funds=indiv_funds, eth_date=eth_date, magic_items=sorted_items,active_party=active_party,party_items=party_items,stored_items=stored_items)
 
 @money.route('/AP')
 def  ap():

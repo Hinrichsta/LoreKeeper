@@ -148,8 +148,104 @@
 </div>
 <div class="row">
     <div class="col">
+        <h2 class="text-center text-dark">Ships</h2>
+    </div>
+    <div class="col">
+        <h2 class="text-center text-dark">Notes</h2>
+    </div>
+    <div class="col">
+        <h2 class="text-center text-dark">Party Items</h2>
+        <div class="accordion bg-dark" id="MItemsAccordion">
+            <div class="accordion-item">
+                <h5 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#partyitems" aria-expanded="false" aria-controls="partyitems">
+                        General Party Items
+                    </button>
+                </h5>
+                <div id="partyitems" class="accordion-collapse collapse" data-bs-parent="#MItemsAccordion">
+                    <div class="accordion-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Item Rarity</th>
+                                    <th scope="col">Link</th>
+                                </tr>
+                            </thead>
+                            {% for pi in party_items %}
+                            <tr>
+                                <td>{{ pi[1] }}</td>
+                                <td>{{ pi[3] }}</td>
+                                <td><a href="{{ pi[4] }}" target="_blank">Link</a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            {% for act in active_party %}
+            <div class="accordion-item">
+                <h5 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ act[1] }}items" aria-expanded="false" aria-controls="{{ act[1] }}items">
+                        {{act[1]}}'s Items
+                    </button>
+                </h5>
+                <div id="{{ act[1] }}items" class="accordion-collapse collapse" data-bs-parent="#MItemsAccordion">
+                    <div class="accordion-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Item Rarity</th>
+                                    <th scope="col">Link</th>
+                                </tr>
+                            </thead>
+                            {% for mi in magic_items %}
+                            {% if act[1] == mi[0] %}
+                            <tr>
+                                <td>{{ mi[1] }}</td>
+                                <td>{{ mi[3] }}</td>
+                                <td><a href="{{ mi[4] }}" target="_blank">Link</a></td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>  
+            {% endfor %}       
+            <div class="accordion-item">
+                <h5 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#storeditems" aria-expanded="false" aria-controls="storeditems">
+                        Items in Storage
+                    </button>
+                </h5>
+                <div id="storeditems" class="accordion-collapse collapse" data-bs-parent="#MItemsAccordion">
+                    <div class="accordion-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Item Rarity</th>
+                                    <th scope="col">Link</th>
+                                </tr>
+                            </thead>
+                            {% for si in stored_items %}
+                            <tr>
+                                <td>{{ si[1] }}</td>
+                                <td>{{ si[3] }}</td>
+                                <td><a href="{{ si[4] }}" target="_blank">Link</a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div> 
+        </div>
     </div>
 </div>
+
 
 <!-- Date Modal -->
 <div class="modal fade" id="etharusDateModal" tabindex="-1" aria-labelledby="etharusDateModallabel" aria-hidden="true">

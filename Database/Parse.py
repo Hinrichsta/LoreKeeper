@@ -197,6 +197,13 @@ def get_magic_items():
         elif mq[11] != None:
             owner.append(['Crew', Lore_Session.execute(text(f"SELECT name FROM Crew WHERE id = {mq[9]}")).all()[0][0]])
         else:
-            owner.append(['Party Stash'])
+            owner.append(['Party Stash', None])
 
     return mi_query, owner
+
+def get_individual_magic_items(member):
+    member_id = (Lore_Session.execute(text(f"SELECT id,name FROM Party WHERE name = '{member}'")).all()[0][0])
+    mi_query_text = text(f"SELECT * FROM Magic_Items WHERE powner = {member_id} ORDER BY id DESC")
+    mi_query = Lore_Session.execute(mi_query_text).all()
+
+    return mi_query
