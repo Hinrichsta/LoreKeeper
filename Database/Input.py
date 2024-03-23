@@ -21,7 +21,7 @@ def set_etharus_date(season,date,year):
         }
         
         with open('LoreKeeper\etharus_date.json', 'w') as outfile:
-        #with open('/etc/LoreKeeper/etharus_date.json', 'w') as outfile: -> Use on Server
+        #with open('/etc/LoreKeeper/etharus_date.json', 'w') as outfile: #-> Use on Server
             json.dump(eth_date, outfile)
         return "Success"
 

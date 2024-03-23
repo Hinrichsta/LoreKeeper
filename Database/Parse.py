@@ -5,7 +5,7 @@ from Database.Database import Lore_Session
 
 def get_etharus_date():
     eth_date = json.load(open('LoreKeeper\etharus_date.json'))
-    #eth_date = json.load(open('/etc/LoreKeeper/etharus_date.json')) -> Use on Server
+    #eth_date = json.load(open('/etc/LoreKeeper/etharus_date.json')) #-> Use on Server
     #date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
     date_parse = [eth_date['season'],eth_date['date'],eth_date['year'],eth_date['era']]
 

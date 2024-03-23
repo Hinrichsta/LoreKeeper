@@ -211,7 +211,7 @@ class MoneyBags(commands.Cog):
     @commands.command()
     async def date(self, ctx,):
         eth_date = get_etharus_date()
-        response = f"The Date in Etharus is currently ```{eth_date}```"
+        response = f"The Date in Etharus is currently ```{eth_date[0]} {eth_date[1]}, {eth_date[2]}{eth_date[3]}```"
         await ctx.send(response)
 
     @commands.command()
@@ -287,7 +287,7 @@ class MoneyBags(commands.Cog):
             mem_items = get_individual_magic_items(member)
         response = f"Items {member} currently has:\n"
         for mi in mem_items:
-            response += f"* [{mi[3]}]({mi[7]})\n"
+            response += f"* {mi[3]}\n * <{mi[7]}>\n"
 
         await ctx.send(response)
 
@@ -299,7 +299,7 @@ class MoneyBags(commands.Cog):
         i = 0
         for mi in magic_items:
             if item_owner[i][0] == 'Party Stash' and (mi[8] == 'Active' or mi[8] == 'Storage'):
-                response += f"* [{mi[3]}]({mi[7]})\n"
+                response += f"* {mi[3]}\n * <{mi[7]}>\n"
             i += 1
             if len(response) >= 1900:
                 await ctx.send(response)
