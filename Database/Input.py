@@ -36,7 +36,7 @@ def set_ap_transaction(description, platinum, gold, silver, copper, member, paye
     for ap in active_party:
         party_ids.append(ap[0])
     
-    eth_date = get_etharus_date()
+    eth_date = get_etharus_date(True)
     ap_insert = text(f"INSERT INTO AP (irl_date, ig_date, description, pp, gp, sp, cp, payee) OUTPUT INSERTED.id, INSERTED.description VALUES ('{date.today()}', '{eth_date}', '{description}', {platinum}, {gold}, {silver}, {copper}, '{payee}')")
 
     result = Lore_Session.execute(ap_insert).all()[0]
@@ -58,8 +58,7 @@ def set_ar_transaction(description, platinum, gold, silver, copper, member):
     for ap in active_party:
         party_ids.append(ap[0])
     
-    eth_date = get_etharus_date()
-    eth_date = f"{eth_date[0]} {eth_date[1]}, {eth_date[2]}{eth_date[3]}"
+    eth_date = get_etharus_date(True)
     ar_insert = text(f"INSERT INTO AR (irl_date, ig_date, description, pp, gp, sp, cp) OUTPUT INSERTED.id, INSERTED.description VALUES ('{date.today()}', '{eth_date}', '{description}', {platinum}, {gold}, {silver}, {copper})")
 
     result = Lore_Session.execute(ar_insert).all()[0]
@@ -87,8 +86,7 @@ def deposit_magic_item(name, notes, status, rarity=None, maker=None, link=None, 
     else:
         pass
 
-    eth_date = get_etharus_date()
-    eth_date = f"{eth_date[0]} {eth_date[1]}, {eth_date[2]}{eth_date[3]}"
+    eth_date = get_etharus_date(True)
     mi_insert = text(f"INSERT INTO Magic_Items (irl_date, ig_date, name, notes, rarity, maker, link, status{column}) OUTPUT INSERTED.id, INSERTED.name VALUES('{date.today()}', '{eth_date}', '{name}', '{notes}', '{rarity}', '{maker}', '{link}', '{status}'{owner})")
     
     results = Lore_Session.execute(mi_insert).all()[0]

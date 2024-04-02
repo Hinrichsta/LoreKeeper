@@ -3,11 +3,14 @@ from sqlalchemy import text
 from Database.Database import Lore_Session
 #from Database import Lore_Session
 
-def get_etharus_date():
+def get_etharus_date(format=False):
     eth_date = json.load(open('LoreKeeper\etharus_date.json'))
     #eth_date = json.load(open('/etc/LoreKeeper/etharus_date.json')) #-> Use on Server
     #date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
-    date_parse = [eth_date['season'],eth_date['date'],eth_date['year'],eth_date['era']]
+    if format:
+        date_parse = f"{eth_date['season']} {eth_date['date']}, {eth_date['year']}{eth_date['era']}"
+    else:
+        date_parse = [eth_date['season'],eth_date['date'],eth_date['year'],eth_date['era']]
 
     return date_parse
 

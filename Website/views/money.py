@@ -80,15 +80,10 @@ def home():
     for act in active_party:
         temp_items = []
         i = 0
-        print(act[1])
         for mi in magic_items:
-            print(f"{mi[3]}:{magic_owner[i][1]}")
             if act[1] == magic_owner[i][1]:
                 sorted_items.append((act[1],mi[3],mi[4],mi[5],mi[7]))
             i += 1
-    for si in sorted_items:
-        print(si)
-
             
     return render_template("home.html", party_funds=party_funds, indiv_funds=indiv_funds, eth_date=eth_date, magic_items=sorted_items,active_party=active_party,party_items=party_items,stored_items=stored_items)
 
