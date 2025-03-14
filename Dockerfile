@@ -1,13 +1,12 @@
-FROM python:3.11.9-slim
+FROM python:3.12.9-slim-bookworm
 
 # set a directory for the app
-WORKDIR /usr/src/app
+WORKDIR /lorekeeper
 
 # Copy the reuirements for installation
-COPY requirements.txt .
+COPY . /lorekeeper
 
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# copy all the files to the container
-COPY . .
+ENTRYPOINT [ "python", "lorekeeper.py" ]

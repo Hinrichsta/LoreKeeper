@@ -1,8 +1,8 @@
 services:
-  discord: 
+  lorekeeper: 
     build: .
-    volumes: 
-      - .:/usr/src/app
     env_file:
       - path: ".env"
-        required: true
+    volumes: 
+      - ./database:/lorekeeper/database
+      - ./discord.log:/lorekeeper/discord.log
