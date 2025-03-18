@@ -47,7 +47,7 @@ class LoggingFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-logger = logging.getLogger("discord_bot")
+logger = logging.getLogger("lorekeeper_bot")
 logger.setLevel(logging.INFO)
 
 # Console handler
@@ -84,15 +84,15 @@ class LorekeeperBot(commands.Bot):
         self.bot_prefix = os.getenv("PREFIX")
         self.invite_link = os.getenv("INVITE_LINK")
 
-    #async def init_db(self) -> None:
-    #    async with aiosqlite.connect(
-    #        f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
-    #    ) as db:
-    #        with open(
-    #            f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
-    #        ) as file:
-    #            await db.executescript(file.read())
-    #        await db.commit()
+    async def init_db(self) -> None:
+        async with aiosqlite.connect(
+            f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+        ) as db:
+            with open(
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+            ) as file:
+                await db.executescript(file.read())
+            await db.commit()
 
     async def load_cogs(self) -> None:
         """
@@ -136,14 +136,29 @@ class LorekeeperBot(commands.Bot):
             f"Running on: {platform.system()} {platform.release()} ({os.name})"
         )
         self.logger.info("-------------------")
-        #await self.init_db()
+        await self.init_db()
         await self.load_cogs()
         #self.status_task.start()
-        #self.database = DatabaseManager(
-        #    connection=await aiosqlite.connect(
-        #        f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
-        #    )
-        #)
+        self.database = DatabaseManager(
+            connection=await aiosqlite.connect(
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+            )
+        )
+
+    async def on_guild_join(self) -> None:
+        """
+        When the bot joins a server it sets up its settings file
+        """
+        self.logger.info(f"Joined Server {self.guild.name} (ID: {self.guild.id}).  Adding Settings")
+        self.bot.database.add_server(self.guild.id)
+
+    async def on_command(self, context: Context) -> None:
+        """
+        The code in this event is executed every time a normal command is called.
+
+        :param context: The context of the command that has been executed.
+        """
+        self.bot.database.get_settings()
 
     async def on_command_completion(self, context: Context) -> None:
         """

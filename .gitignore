@@ -169,3 +169,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# SQLITE database
+*.db
+
+# Log file
+discord.log
