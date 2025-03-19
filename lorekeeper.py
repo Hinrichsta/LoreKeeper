@@ -55,7 +55,7 @@ logger.setLevel(logging.INFO)
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(LoggingFormatter())
 # File handler
-file_handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
+file_handler = logging.FileHandler(filename="data/discord.log", encoding="utf-8", mode="a")
 file_handler_formatter = logging.Formatter(
     "[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{"
 )
@@ -87,7 +87,7 @@ class LorekeeperBot(commands.Bot):
 
     async def init_db(self) -> None:
         async with aiosqlite.connect(
-            f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+            f"{os.path.realpath(os.path.dirname(__file__))}/data/database.db"
         ) as db:
             with open(
                 f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
@@ -142,7 +142,7 @@ class LorekeeperBot(commands.Bot):
         #self.status_task.start()
         self.database = DatabaseManager(
             connection=await aiosqlite.connect(
-                f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+                f"{os.path.realpath(os.path.dirname(__file__))}/data/database.db"
             )
         )
 

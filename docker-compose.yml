@@ -1,12 +1,10 @@
 services:
-  lorekeeper: 
+  discord-bot: 
     build: .
     env_file:
       - path: ".env"
     volumes: 
-      - ./database:/lorekeeper/database
-      - ./discord.log:/lorekeeper/discord.log
+      - data:/lorekeeper/data
 
 volumes:
-  database: {}
-  discord.log: {}
+  data: {}
