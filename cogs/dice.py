@@ -139,9 +139,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
 
         lower_roll_requests = roll_request.lower()
         parsed_roll_requests = re.findall(pattern_all, lower_roll_requests)
-        logger.info(f"parsed_roll_requests: {parsed_roll_requests}")
         temp_request = re.sub(pattern_all, '{}', roll_request)
-        logger.info(f"Subbed Request: {temp_request}")
         all_roll_formula = []
         all_roll_results = []
         all_roll_totals = []
@@ -227,7 +225,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
                                 else:
                                     dice_outcome += f"{ansi_blue}{roll_results[i]}{ansi_clear})"
                             else:
-                                if (roll_results[i] == int(dice_size)):
+                                if (roll_results[i] == int(dice_rolled[1])):
                                     dice_outcome += f"{ansi_green}{roll_results[i]}{ansi_clear}, "
                                 elif (roll_results[i] == 1):
                                     dice_outcome += f"{ansi_red}{roll_results[i]}{ansi_clear}, "
@@ -243,9 +241,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
             if rolling_dice:
                 rolled_request = temp_request.format(*all_roll_totals)
                 is_math = False
-                logger.info(f"request split: {list(rolled_request)}")
                 for i in list(rolled_request):
-                    logger.info(f"Math Check loop: {i}")
                     if i in ['+','-','*','%','.','/']:
                         
                         is_math = True
