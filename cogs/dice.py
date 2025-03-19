@@ -81,7 +81,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
                         else:
                             dice_outcome += f"{ansi_blue}{roll_results[i]}{ansi_clear})"
                     else:
-                        if (roll_results[i] == 20):
+                        if (roll_results[i] == int(dice_size)):
                             dice_outcome += f"{ansi_green}{roll_results[i]}{ansi_clear}, "
                         elif (roll_results[i] == 1):
                             dice_outcome += f"{ansi_red}{roll_results[i]}{ansi_clear}, "
@@ -227,7 +227,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
                                 else:
                                     dice_outcome += f"{ansi_blue}{roll_results[i]}{ansi_clear})"
                             else:
-                                if (roll_results[i] == 20):
+                                if (roll_results[i] == int(dice_size)):
                                     dice_outcome += f"{ansi_green}{roll_results[i]}{ansi_clear}, "
                                 elif (roll_results[i] == 1):
                                     dice_outcome += f"{ansi_red}{roll_results[i]}{ansi_clear}, "
