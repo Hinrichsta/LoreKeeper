@@ -9,7 +9,8 @@ import logging
 from discord.ext import commands, tasks
 from discord.ext.commands import Context
 import aiosqlite
-#from database import DatabaseManager
+from database import DatabaseManager
+import asyncio
 
 load_dotenv()
 
@@ -145,12 +146,12 @@ class LorekeeperBot(commands.Bot):
             )
         )
 
-    async def on_guild_join(self) -> None:
+    async def on_guild_join(self, context: Context) -> None:
         """
         When the bot joins a server it sets up its settings file
         """
-        self.logger.info(f"Joined Server {self.guild.name} (ID: {self.guild.id}).  Adding Settings")
-        self.bot.database.add_server(self.guild.id)
+        self.logger.info(f"Joined Server {context.guild.name} (ID: {self.guild.id}).  Adding Settings")
+        await self.database.add_server(context.guild.id)
 
     async def on_command(self, context: Context) -> None:
         """
@@ -158,7 +159,16 @@ class LorekeeperBot(commands.Bot):
 
         :param context: The context of the command that has been executed.
         """
-        self.bot.database.get_settings()
+        #server_settings = await self.database.get_settings(context.guild.id)
+        #self.logger.info(f"{server_settings}")
+
+        #if not server_settings:
+        #    self.logger.info(f"Server entry does not exist, creating entry")
+        #    await context.send("Your Server had no settings, or lost is settings.  Creating default entry.")
+        #    await self.database.add_server(context.guild.id)
+        #    server_settings = await self.database.get_settings(context.guild.id)
+
+
 
     async def on_command_completion(self, context: Context) -> None:
         """

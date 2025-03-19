@@ -6,3 +6,7 @@ services:
     volumes: 
       - ./database:/lorekeeper/database
       - ./discord.log:/lorekeeper/discord.log
+
+volumes:
+  database: {}
+  discord.log: {}

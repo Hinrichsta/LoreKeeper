@@ -12,7 +12,7 @@ class DatabaseManager:
         :param server_id: The ID of the that is being joined.
         """
         await self.connection.execute(
-            "INSERT INTO server_settings(server_id, dice, tracker) VALUES (?, 0, 0)",
+            "INSERT INTO server_settings(id, dice, tracker, tracker_id) VALUES (?, 1, 0, NULL)",
             (
                     server_id,
             ),
@@ -51,7 +51,7 @@ class DatabaseManager:
             return warn_id
 
 
-    async def get_settings(self, user_id: int, server_id: int) -> list:
+    async def get_settings(self, server_id: int) -> list:
         """
         This function will get all the settings for a server.
 
@@ -59,15 +59,13 @@ class DatabaseManager:
         :return: A list of all the settings for the server.
         """
         rows = await self.connection.execute(
-            "SELECT user_id, server_id, moderator_id, reason, strftime('%s', created_at), id FROM warns WHERE user_id=? AND server_id=?",
+            "SELECT id, dice, tracker, tracker_id FROM server_settings WHERE id=?",
             (
-                user_id,
                 server_id,
             ),
         )
         async with rows as cursor:
             result = await cursor.fetchall()
-            result_list = []
-            for row in result:
-                result_list.append(row)
+            result_list = result
+
             return result_list

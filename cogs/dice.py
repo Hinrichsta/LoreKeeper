@@ -1,5 +1,6 @@
 import random
 import re
+import asyncio
 
 import discord
 import logging
@@ -32,6 +33,13 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
         :param context: The hybrid command context.
         :param roll: The formula for the requested roll.
         """
+
+        #enabled = await self.bot.database.get_settings(context.guild.id)
+        #self.logger.info(f"Dice check: {enabled}")
+        #await asyncio.sleep(5)
+        #if enabled[1] == 0:
+        #    exit
+        
         # Regex Patterns
         pattern_name = re.compile(r"\w+ \(\D\w+\)") # Discord Name
         pattern_base = re.compile(r"\d+d\d+") # Base Roll Pattern
@@ -55,7 +63,6 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
 
         parsed_roll_requests = re.findall(pattern_all, roll_request)
         temp_request = re.sub(pattern_all, '{}', roll_request)
-        logger.info(f"Replaced Request: {temp_request}")
         all_roll_formula = []
         all_roll_results = []
         all_roll_totals = []
@@ -70,7 +77,6 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
             dice_outcome = "("
             dice_total = 0
             roll_results = []
-            logger.info(f"Parsed Rolls: {parsed_roll_requests}")
             if re.match(pattern_adv, r):  
                 dice_size = (dice_rolled[1].split('kh'))[0]
                 roll_adv = []
@@ -247,14 +253,22 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
                 
         if rolling_dice:
             rolled_request = temp_request.format(*all_roll_totals)
-            logger.info(f"Request with Rolls: {rolled_request}")
-            total = eval(rolled_request)
-            logger.info(f"Math Total: {total}")
+            is_math = False
+            for i in rolled_request.split():
+                if i in ['+','-','*','%','.']:
+                    is_math = True
+                    break
+            
 
             response = f"**{name}** is rolling {roll_request}\n```ansi\n"
             for i in range(len(all_roll_results)):
                 response += f"{all_roll_formula[i]} | {all_roll_results[i]} = {ansi_blue}{all_roll_totals[i]}{ansi_clear}\n"
-            response += f"Total: {ansi_blue}{total}{ansi_clear}\n```"
+            
+            if is_math:
+                total = eval(rolled_request)
+                response += f"Total: {ansi_blue}{total}{ansi_clear}\n```"
+            else:
+                response += f"\n```"
 
             await context.reply(response)
 
