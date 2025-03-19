@@ -60,7 +60,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
             if dice_keep is not None:
                 temp_list = roll_results.copy()
                 for i in range(int(dice_keep)):
-                    lowest = dice_size
+                    lowest = int(dice_size)
                     for j in range(len(temp_list)):
                         if temp_list[j] < lowest:
                             lowest = temp_list[j]
