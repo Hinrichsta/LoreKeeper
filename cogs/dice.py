@@ -61,7 +61,8 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
         die_size_cap = 1000
         rolling_dice = True
 
-        parsed_roll_requests = re.findall(pattern_all, roll_request)
+        lower_roll_requests = roll_request.lower()
+        parsed_roll_requests = re.findall(pattern_all, lower_roll_requests)
         temp_request = re.sub(pattern_all, '{}', roll_request)
         all_roll_formula = []
         all_roll_results = []
@@ -69,6 +70,10 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
 
         # start Logger
         logger.info(f"Rolling some dice for {context.author.display_name}.  Requested Roll: {roll_request}")
+        if parsed_roll_requests is None or not parsed_roll_requests:
+            response = f"**{name}** isn't even rolling anything... Try again"
+            await context.reply(response)
+
 
         for r in parsed_roll_requests:
             # Looks for requests using Advantage
@@ -255,7 +260,7 @@ class DiceRoller(commands.Cog, name="Dice Roller"):
             rolled_request = temp_request.format(*all_roll_totals)
             is_math = False
             for i in rolled_request.split():
-                if i in ['+','-','*','%','.']:
+                if i in ['+','-','*','%','.','/']:
                     is_math = True
                     break
             
