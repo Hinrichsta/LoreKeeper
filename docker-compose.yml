@@ -2,7 +2,7 @@ services:
   discord-bot: 
     build: .
     env_file:
-      - path: ".env"
+      - ".env"
     volumes: 
       - data:/lorekeeper/data
     restart: always
