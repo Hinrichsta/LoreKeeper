@@ -5,6 +5,7 @@ services:
       - path: ".env"
     volumes: 
       - data:/lorekeeper/data
+    restart: always
 
 volumes:
   data: {}
